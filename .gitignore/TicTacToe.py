@@ -6,26 +6,24 @@ def show():
     print '----------'
     print board[6],'|',board[7],'|',board[8]
 
-def check():
-    if board[0] == 'x' and board[1] == 'x' and board[2] == 'x' or board[0] == 'o' and board[1] == 'o' and board[2] == 'o':
-        return True
-    elif board[3] == 'x' and board[4] == 'x' and board[5] == 'x' or (board[3] == 'o' and board[4] == 'o' and board[5] == 'o'):
-        return True
-    elif board[6] == 'x' and board[7] == 'x' and board[8] == 'x' or board[6] == 'o' and board[7] == 'o' and board[8] == 'o':
-        return True
-    elif board[0] == 'x' and board[3] == 'x' and board[6] == 'x' or board[0] == 'o' and board[3] == 'o' and board[6] == 'o':
-        return True
-    elif board[1] == 'x' and board[4] == 'x' and board[7] == 'x' or board[1] == 'o' and board[4] == 'o' and board[7] == 'o':
-        return True
-    elif board[2] == 'x' and board[5] == 'x' and board[8] == 'x' or board[2] == 'o' and board[5] == 'o' and board[8] == 'o':
-        return True
-    elif board[0] == 'x' and board[4] == 'x' and board[8] == 'x' or board[0] == 'o' and board[4] == 'o' and board[8] == 'o':
-        return True
-    elif board[2] == 'x' and board[4] == 'x' and board[6] == 'x' or board[2] == 'o' and board[4] == 'o' and board[6] == 'o':
-        return True
-    else:
-        return False
+#mapNumber : convert 2D numbers into linear
+def m(x, y) :
+    return 3*x + y
 
+def check() :
+    #check vertical and horizontal
+    for x in range(3) :
+        if board[m(x,0)] == board[m(x,1)] and board[m(x,1)] == board[m(x,2)] and board[m(x,0)] not in range(9) :
+            return True
+        if board[m(0,x)] == board[m(1,x)] and board[m(1,x)] == board[m(2,x)] and board[m(0,x)] not in range(9) :
+            return True
+    #check diagonals
+    if board[m(0,0)] == board[m(1,1)] and board[m(1,1)] == board[m(2,2)] and board[m(0,0)] not in range(9) :
+            return True
+    if board[m(0,2)] == board[m(1,1)] and board[m(1,1)] == board[m(2,0)] and board[m(0,2)] not in range(9) :
+            return True
+    return False
+        
 count = 0
 activeUser = True
 show()
@@ -34,15 +32,15 @@ while True:
         print 'Match is Drawn!!'
         break
     else:
-        if activeUser == True:
+        if activeUser :
             print 'First Person Turn:'
             input = raw_input("Enter spot:")
             input = int(input)
             count+=1
             activeUser = False
-            if board[input] != 'x' and board[input] != 'o':
+            if board[input]  in range(9):
                 board[input] = 'x'
-                if check() == True:
+                if check() :
                     show()
                     print 'Player 1 Has Won!!'
                     break
@@ -50,10 +48,9 @@ while True:
                 print 'Spot is Already Taken!'
                 count-=1
                 while True:
-                    input = raw_input('Choose Another Spot:')
-                    input = int(input)
+                    input = int(raw_input('Choose Another Spot:'))
                     count+=1
-                    if board[input] != 'x' and board[input] != 'o':
+                    if board[input]  in range(9):
                         board[input] = 'x'
                         break
                     else:
@@ -62,13 +59,12 @@ while True:
             show()
         else:
             print 'Secod Person Turn:'
-            input = raw_input("Enter Spot:")
-            input = int(input)
+            input = int(raw_input("Enter Spot:"))
             count+=1
             activeUser = True
-            if board[input] != 'x' and board[input] != 'o':
+            if board[input]  in range(9):
                 board[input] = 'o'
-                if check() == True:
+                if check() :
                     show()
                     print 'Player 2 Has Won!!'
                     break
@@ -76,10 +72,9 @@ while True:
                 print 'Spot is Already Taken!'
                 count-=1
                 while True:
-                    input = raw_input('Choose Another Spot:')
-                    input = int(input)
+                    input = int(raw_input('Choose Another Spot:'))
                     count+=1
-                    if board[input] != 'x' and board[input] != 'o':
+                    if board[input] in range(9):
                         board[input] = 'o'
                         break
                     else:
