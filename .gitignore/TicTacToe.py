@@ -6,7 +6,7 @@ def show():
     print '----------'
     print board[6],'|',board[7],'|',board[8]
 
-#mapNumber
+#mapNumber : convert 2D numbers into linear
 def m(x, y) :
     return 3*x + y
 
